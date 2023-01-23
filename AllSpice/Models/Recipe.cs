@@ -3,7 +3,6 @@ namespace AllSpice.Models;
 public class Recipe
 {
   public int Id { get; set; }
-  [Required]
   public string Title { get; set; }
   public string Instructions { get; set; }
   public string Img { get; set; }

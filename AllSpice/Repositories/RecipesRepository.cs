@@ -41,4 +41,52 @@ public class RecipesRepository
 
     return recipes;
   }
+  internal Recipe Get(int id)
+  {
+    string sql = @"
+    SELECT
+    *
+    FROM recipes
+    WHERE id = @id;
+    ";
+    Recipe recipe = _db.Query<Recipe>(sql, new { id }).FirstOrDefault();
+    return recipe;
+  }
+
+  internal Recipe GetOne(int id)
+  {
+    string sql = @"
+    SELECT
+    rc.*,
+    ac.*
+    FROM recipes rc
+    JOIN accounts ac ON ac.id = rc.creatorId
+    WHERE rc.id = @id;
+    ";
+    return _db.Query<Recipe, Account, Recipe>(sql, (recipe, account) =>
+    {
+      recipe.Creator = account;
+      return recipe;
+    }, new { id }).FirstOrDefault();
+  }
+
+  internal bool Update(Recipe update)
+  {
+    string sql = @"
+    UPDATE recipes
+      SET
+      instructions = @instructions
+      WHERE id = @id;
+    ";
+    int rows = _db.Execute(sql, update);
+    return rows > 0;
+  }
+  internal void Remove(int id)
+  {
+    string sql = @"
+      DELETE FROM recipes
+      WHERE id = @id;
+      ";
+    _db.Execute(sql, new { id });
+  }
 }
