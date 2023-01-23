@@ -54,3 +54,14 @@ VALUES (
         'https://pbs.twimg.com/media/E535dKSXsAAfde5.jpg',
         '639911997e960bd91519ce50'
     );
+
+CREATE TABLE
+    IF NOT EXISTS ingredients(
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(150) NOT NULL,
+        quantity VARCHAR(25) NOT NULL,
+        creatorId VARCHAR(255) NOT NULL,
+        recipeId INT NOT NULL,
+        FOREIGN KEY (creatorId) REFERENCES accounts (id) ON DELETE CASCADE,
+        FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE
+    ) default charset utf8 COMMENT '';
