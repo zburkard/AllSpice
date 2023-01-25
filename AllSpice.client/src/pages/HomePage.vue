@@ -1,43 +1,97 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img
-        src="https://bcw.blob.core.windows.net/public/img/8600856373152463"
-        alt="CodeWorks Logo"
-        class="rounded-circle"
-      >
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container-fluid">
+    <div class="row justify-content-center move">
+      <div class="col-5 text-center">
+        <ul class="menu-bar">
+          <li>Home</li>
+          <li>My Recipes</li>
+          <li>Favorites</li>
+        </ul>
+      </div>
+      <div class="row justify-content-center">
+        <div v-for="r in recipes" class="col-3 p-3">
+          <RecipeCard :recipe="r" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import RecipeCard from "../components/RecipeCard.vue";
+import { computed, reactive, onMounted } from 'vue';
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
+import { recipesService } from "../services/RecipesService.js"
+import { AppState } from "../AppState.js";
 export default {
   setup() {
-    return {}
-  }
+    async function getRecipes() {
+      try {
+        await recipesService.getRecipes()
+      } catch (error) {
+        Pop.error(error.message)
+        logger.error(error)
+      }
+    }
+    onMounted(() => {
+      getRecipes();
+    })
+    return {
+      account: computed(() => AppState.account),
+      recipes: computed(() => AppState.recipes)
+    };
+  },
+  components: { RecipeCard }
 }
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+.move {
+  position: relative;
+  top: -20px;
+}
 
-  .home-card {
-    width: 50vw;
+.menu-bar {
+  border-radius: 25px;
+  height: fit-content;
+  display: inline-flex;
+  background-color: rgba(0, 0, 0, .4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  align-items: center;
+  padding: 0 10px;
 
-    >img {
-      height: 200px;
-      max-width: 200px;
+  li {
+    list-style: none;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+    padding: 12px 16px;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &::before {
+      content: " ";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
       width: 100%;
-      object-fit: contain;
-      object-position: center;
+      z-index: -1;
+      transition: .2s;
+      border-radius: 25px;
+    }
+
+    &:hover {
+      &::before {
+        background: linear-gradient(to bottom, #e8edec, #d2d1d3);
+        box-shadow: 0px 3px 20px 0px black;
+        transform: scale(1.2);
+      }
+
+      color: black;
     }
   }
 }

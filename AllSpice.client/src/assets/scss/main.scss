@@ -4,7 +4,7 @@
 @import "./_utilities.scss";
 @import "./loaders.scss";
 
-body{
+body {
   overscroll-behavior: none;
 }
 
@@ -12,7 +12,11 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--body-bg);
+  background-image: url('https://images.pexels.com/photos/1260727/pexels-photo-1260727.jpeg?cs=srgb&dl=pexels-sasha-martynov-1260727.jpg&fm=jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 main {
@@ -30,6 +34,7 @@ select {
     &:valid {
       border: 1px solid $success;
     }
+
     &:invalid {
       border: 1px solid $danger;
     }

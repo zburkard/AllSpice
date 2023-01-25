@@ -19,11 +19,25 @@ public class FavoritesController : ControllerBase
   {
     try
     {
-      Favorite userInfo = await _auth0provider.GetUserInfoAsync<Favorite>(HttpContext);
+      Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
       favoriteData.AccountId = userInfo.Id;
-      int id = _favoritesService.Create(favoriteData);
-      userInfo.RecipeLikeId = id;
-      return Ok(userInfo);
+      Favorite favorite = _favoritesService.Create(favoriteData);
+      return Ok(favorite);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+  [HttpDelete("{id}")]
+  [Authorize]
+  public async Task<ActionResult<string>> Remove(int id)
+  {
+    try
+    {
+      Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
+      string message = _favoritesService.Remove(id, userInfo.Id);
+      return Ok(message);
     }
     catch (Exception e)
     {

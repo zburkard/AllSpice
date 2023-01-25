@@ -11,10 +11,31 @@ public class FavoritesService
     _recipesService = recipesService;
   }
 
-  internal int Create(Favorite favoriteData)
+  internal Favorite Create(Favorite favoriteData)
   {
     Recipe recipe = _recipesService.GetOne(favoriteData.RecipeId, favoriteData.AccountId);
-    int id = _repo.Create(favoriteData);
-    return id;
+    Favorite favorite = _repo.Create(favoriteData);
+    return favorite;
+  }
+
+  internal List<MyRecipe> GetMyRecipes(string accountId)
+  {
+    List<MyRecipe> myRecipes = _repo.GetMyRecipes(accountId);
+    return myRecipes;
+  }
+
+  internal string Remove(int id, string userId)
+  {
+    Favorite original = _repo.GetOne(id);
+    if (original == null)
+    {
+      throw new Exception("No like with that Id");
+    }
+    if (original.AccountId != userId)
+    {
+      throw new Exception("You didn't like this");
+    }
+    _repo.Remove(id);
+    return $"Removed like with id : {id}";
   }
 }

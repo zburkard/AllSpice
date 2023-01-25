@@ -23,38 +23,6 @@ CREATE TABLE
 
 DROP TABLE recipes;
 
-INSERT INTO
-    recipes (
-        title,
-        instructions,
-        category,
-        coverImg,
-        creatorId
-    )
-VALUES (
-        'Pulled Pork',
-        'Pull the Pork appart',
-        'BBQ',
-        'https://playswellwithbutter.com/wp-content/uploads/2021/04/BBQ-Pulled-Pork-16.jpg',
-        '639911997e960bd91519ce50'
-    );
-
-INSERT INTO
-    recipes (
-        title,
-        instructions,
-        category,
-        coverImg,
-        creatorId
-    )
-VALUES (
-        'Sloppy Steaks',
-        'Get a nice grilled steak and dump a glass of water all over it.',
-        'Fine Dining',
-        'https://pbs.twimg.com/media/E535dKSXsAAfde5.jpg',
-        '639911997e960bd91519ce50'
-    );
-
 CREATE TABLE
     IF NOT EXISTS ingredients(
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -65,3 +33,12 @@ CREATE TABLE
         FOREIGN KEY (creatorId) REFERENCES accounts (id) ON DELETE CASCADE,
         FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE
     ) default charset utf8 COMMENT '';
+
+CREATE TABLE
+    IF NOT EXISTS favorites(
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        recipeId INT NOT NULL,
+        accountId VARCHAR(255) NOT NULL,
+        FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE,
+        FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE
+    ) default charset utf8;
