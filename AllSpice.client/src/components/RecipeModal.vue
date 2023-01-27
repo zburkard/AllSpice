@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="recipeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content m-style">
         <div class="modal-header">
@@ -10,7 +10,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-6">
-                <img class="img-fit" :src="recipe?.img" alt="">
+                <img class="img-fit rounded" :src="recipe?.img" alt="">
               </div>
               <div class="col-6 p-2">
                 <h4>Ingredients</h4>
@@ -18,12 +18,10 @@
                   <p>{{ i.quantity }} {{ i.name }}</p>
                 </div>
                 <div v-if="recipe?.creator.id == account.id">
-                  <div class="box">
-                    <form name="search">
-                      <input type="text" class="input" name="txt" onmouseout="this.value = ''; this.blur();">
-                    </form>
-                    <i class="mdi mdi-plus"></i>
-                  </div>
+                  <input type="text" class="ing-inp rounded mx-1" placeholder="Ingredient Name">
+                  <input placeholder="Ammount" class="ing-inp rounded" type="text">
+                  <button class="col-3 btn btn-success mt-2">Add
+                    Ingredient</button>
                 </div>
                 <h4>Instructions</h4>
                 <p>{{ recipe?.instructions }}</p>
@@ -67,43 +65,18 @@ export default {
   backdrop-filter: blur(10px);
 }
 
-.box {
-  position: relative;
-}
+$white: rgba(255, 255, 255, 0.3);
 
-.input {
-  padding: 10px;
-  width: 40px;
-  height: 40px;
-  background: none;
-  border: 4px solid #ffd52d;
-  border-radius: 50px;
-  box-sizing: border-box;
-  font-family: Comic Sans MS;
-  font-size: 26px;
-  color: #ffd52d;
-  outline: none;
-  transition: .5s;
-}
-
-.box:hover input {
-  width: 280px;
-  background: #3b3640;
-  border-radius: 10px;
-}
-
-.box i {
-  position: absolute;
-  top: 50%;
-  right: -7px;
-  transform: translate(-50%, -50%);
-  font-size: 26px;
-  color: #00570c;
-  transition: .2s;
-}
-
-.box:hover i {
-  opacity: 0;
-  z-index: -1;
+.ing-inp {
+  background: transparent;
+  width: 200px;
+  padding: 0.5em;
+  border: none;
+  border-left: 1px solid $white;
+  border-top: 1px solid $white;
+  backdrop-filter: blur(5px);
+  box-shadow: 4px 4px 60px rgba(0, 0, 0, 0.2);
+  color: rgb(0, 0, 0);
+  font-weight: 500;
 }
 </style>

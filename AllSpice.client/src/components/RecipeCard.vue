@@ -1,6 +1,6 @@
 <template>
   <article class="card card--1 selectable" @click="setActiveRecipe(recipe.id)" data-bs-toggle="modal"
-    data-bs-target="#exampleModal">
+    data-bs-target="#recipeModal">
     <div class="card__info-hover">
       <svg class="card__like" viewBox="0 0 24 24">
         <path fill="#000000"

@@ -11,12 +11,15 @@
   <main>
     <router-view />
   </main>
+  <footer></footer>
   <RecipeModal />
+  <CreateModal />
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
+import CreateModal from "./components/CreateModal.vue"
 import Navbar from './components/Navbar.vue'
 import RecipeModal from "./components/RecipeModal.vue"
 
@@ -26,7 +29,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar, RecipeModal }
+  components: { Navbar, RecipeModal, CreateModal }
 }
 </script>
 <style lang="scss">
